@@ -1,0 +1,19 @@
+@import "tailwindcss";
+@plugin "daisyui";
+ @plugin "daisyui" {
+   themes: all ;
+ }
+
+ /* globals.css */
+.btn-primary {
+  @apply text-primary-content;
+}
+.btn-accent {
+  @apply text-accent-content;
+}
+.btn-success {
+  @apply text-success-content;
+}
+.btn-error {
+  @apply text-error-content;
+}
