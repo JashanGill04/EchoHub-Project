@@ -17,6 +17,7 @@ import CreateSession from './Component/sessions/CreateSession';
 import WaitingArea from './Component/sessions/Waitingarea';
 import WaitingPage from './Pages/session/WaitingPage';
 import { socket } from './lib/socket';
+import Chatting from './Pages/Chating';
 
 function App() {
  const {authUser,checkAuth,isCheckingAuth,onlineUsers}=useAuthStore();
@@ -46,7 +47,7 @@ if(isCheckingAuth && !authUser) return(
 <Navbar />
 <Routes>
   <Route path="/" element={ authUser? <SessionList/>: <Navigate to="/login"/>}/>
-  <Route path="/chat" element={ authUser? <HomePage/>: <Navigate to="/login"/>}/>
+  <Route path="/chat" element={ authUser? <Chatting/>: <Navigate to="/login"/>}/>
   <Route path="/signup" element={!authUser ? <SignUpPage/>: <Navigate to="/"/>}/>
   <Route path="/login" element={!authUser ? <LoginPage/>: <Navigate to="/"></Navigate>}/>
   <Route path="/settings" element={ <SettingsPage/>}/>

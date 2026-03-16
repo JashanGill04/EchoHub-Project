@@ -4,7 +4,7 @@ import { Op } from "sequelize";
 
 //get chat history
 export const getmessages = async (req, res) => {
-  const { friendId } = req.params;
+  const { id:friendId } = req.params;
   const myId = req.user.id;
   try {
    
@@ -17,8 +17,8 @@ export const getmessages = async (req, res) => {
         ],
       },
       include: [
-        { model: User, as: "sender", attributes: ["username", "profilePic"] },
-        { model: User, as: "receiver", attributes: ["username", "profilePic"] },
+        { model: User, as: "sender", attributes: ["name", "profilePic"] },
+        { model: User, as: "receiver", attributes: ["name", "profilePic"] },
       ],
       order: [["createdAt", "ASC"]],
     });
@@ -35,7 +35,7 @@ export const sendmessage = async (req, res) => {
     
     try{
        const { text, image } = req.body;
-    const { friendId: receiverId } = req.params;
+    const { id  } = req.params;
     const senderId = req.user.id;  
     let imageUrl;
        if(image){
@@ -43,14 +43,14 @@ export const sendmessage = async (req, res) => {
         imageUrl=uploadResponse.secure_url;
        }
 
-    const newMesssage= await Message.create({
+    const newMessage= await Message.create({
         senderId,
-        receiverId,
+        receiverId : id,
         text,
         image: imageUrl,
     });
     
-    res.status(201).json("message sent successfully");
+    res.status(201).json(newMessage);
 
     }
     catch(error){   
@@ -60,24 +60,52 @@ export const sendmessage = async (req, res) => {
 };
 
 export const getUsersForSidebar = async (req, res) => {
-    const myId= req.user.id;
-      try {
-    const Messagedusers = await Message.findAll({
+  const myId = req.user.id;
+
+  try {
+    const messages = await Message.findAll({
       where: {
         [Op.or]: [
-          { senderId: myId, receiverId: friendId },
-          { senderId: friendId, receiverId: myId },
+          { senderId: myId },
+          { receiverId: myId },
         ],
       },
       include: [
-        { model: User, as: "sender", attributes: ["username", "profilePic"] },
-        { model: User, as: "receiver", attributes: ["username", "profilePic"] },
+        { model: User, as: "sender", attributes: ["id", "name", "profilePic"] },
+        { model: User, as: "receiver", attributes: ["id", "name", "profilePic"] },
       ],
-      order: [["createdAt", "ASC"]],
+      order: [["createdAt", "DESC"]],
     });
-}catch (error) {
-    console.error("Error fetching messages:", error);
+
+    const usersMap = new Map();
+
+    messages.forEach((msg) => {
+      const otherUser =
+        msg.senderId === myId ? msg.receiver : msg.sender;
+
+      if (!usersMap.has(otherUser.id)) {
+        usersMap.set(otherUser.id, otherUser);
+      }
+    });
+
+    const users = Array.from(usersMap.values());
+
+    res.status(200).json(users);
+
+  } catch (error) {
+    console.error("Error fetching sidebar users:", error);
     res.status(500).json({ message: "Internal server error" });
   }
+};
 
+export const loadAllUsers= async(req,res)=>{
+  try{
+       const users= await User.findAll({
+         attributes:["id","name","profilePic"],
+       });
+       res.status(200).json(users);
+
+  }catch(err){
+    res.status(500).json({message:"Internal server error"});
+  }
 };

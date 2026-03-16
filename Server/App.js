@@ -7,7 +7,7 @@ import cookieParser  from "cookie-parser" ;
 import authRoutes from "./src/routes/auth.route.js";
 import sessionRoutes from "./src/routes/session.route.js";
 import joinRequestRoutes from "./src/routes/joinRequest.routes.js";
-// import  messageRoutes = from("./routes/message.route.js");
+import  messageRoutes from "./src/routes/message.route.js";
 import http from "http";
 import { initSocket } from "./sockets/socket.js";
 
@@ -38,7 +38,7 @@ app.use(
 app.use("/api/auth", authRoutes);
 app.use("/api/session", sessionRoutes);
 app.use("/api/join-requests",joinRequestRoutes );
-// app.use("/api/messages", messageRoutes);
+app.use("/api/messages", messageRoutes);
 
 
 

@@ -2,55 +2,55 @@ import React, { useEffect ,useRef } from 'react'
 import { useChatStore } from '../store/useChatStore'
 import ChatHeader from'./ChatHeader.jsx'
 import MessageInput from'./MessageInput.jsx' 
-import MessageSkeleton from './skeletons/MessageSkeleton.jsx'
 import { useAuthStore } from '../store/useAuthStore.js'
 import { formatMessageTime } from "../lib/utils";
-
+import { socket } from "../lib/socket";
 
 const ChatContainer = () => {
-  const {messages,getMessages,isMessagesLoading,selectedUser,subscribeToMessages,unsubscribeFromMessages}=useChatStore();
+  const {messages,isMessagesLoading,selectedUser,getMessages,initChat}=useChatStore();
   const {authUser}= useAuthStore();
     const messageEndRef = useRef(null);
     
-
-useEffect(() => {
-    getMessages(selectedUser._id);
-
-    subscribeToMessages();
-
-    return () => unsubscribeFromMessages();
-  }, [selectedUser._id, getMessages, subscribeToMessages, unsubscribeFromMessages]);
-
-
-  useEffect(()=>{
-    if(messageEndRef.current && messages){
-      messageEndRef.current.scrollIntoView({behaviour:"smooth"});
-    }
- },[messages]);
- 
- if(isMessagesLoading) return (
-<div className="flex-1 flex flex-col overflow-auto">
-  <ChatHeader/>
-  <MessageSkeleton/>
-  <MessageInput/>
-</div>
- )
+    
+    useEffect(() => {
+        if (!selectedUser) return;
+      console.log("i am used");
+      getMessages(selectedUser.id);
+    }, [selectedUser]);
+    
+    useEffect(() => {
+      initChat();
+    }, []);
+    
+    
+    useEffect(()=>{
+      if(messageEndRef.current && messages){
+        messageEndRef.current.scrollIntoView({behavior:"smooth"});
+      }
+    },[messages]);
+    
+    if (!selectedUser) return null;
+ {isMessagesLoading && (
+  <div className="absolute inset-0 flex items-center justify-center bg-base-100/50 backdrop-blur-sm z-10">
+    <span className="loading loading-dots loading-md"></span>
+  </div>
+)}
  
   return (
-    <div className='"flex-1 w-screen flex flex-col overflow-auto'>
+    <div className='"flex-1 w-full overflow-auto  '>
 <ChatHeader/>
-<div className="flex-1 overflow-y-auto p-4 space-y-4">
+<div className="flex-1 overflow-y-auto p-4 space-y-4 h-95">
         {messages.map((message) => (
           <div
-            key={message._id}
-            className={`chat ${message.senderId === authUser._id ? "chat-end" : "chat-start"}`}
+            key={message.id}
+            className={`chat ${message.senderId === authUser.id ? "chat-end" : "chat-start"}`}
             ref={messageEndRef}
           >
             <div className=" chat-image avatar">
               <div className="size-10 rounded-full border">
                 <img
                   src={
-                    message.senderId === authUser._id
+                    message.senderId === authUser.id
                       ? authUser.profilePic || "/avatar.png"
                       : selectedUser.profilePic || "/avatar.png"
                   }

@@ -1,7 +1,8 @@
-import {Server} from "socket.io";
+import {Server, Socket} from "socket.io";
 import { attachWhiteboardHandlers } from "./whiteboardSocket.js";
+import { attachOutsideChatHandlers } from "./OutsideChatSocket.js";
 let io;
-const activeSessions={};
+const userSocketMap = {};
 export const initSocket = (httpServer)=>{
     io = new Server(httpServer,{
       cors: {
@@ -11,9 +12,15 @@ export const initSocket = (httpServer)=>{
     }),
 
 
-io.on("connection", (socket) => {
-  console.log("Socket Connected:", socket.id);
-attachWhiteboardHandlers(io,socket);
+io.on("connection", (socket) => {  
+  
+  console.log("A User Connected:", socket.id);
+  const userId=socket.handshake.auth.userId;
+if(userId) userSocketMap[userId]=socket.id
+io.emit("getOnlineUsers",Object.keys(userSocketMap));
+
+
+  attachWhiteboardHandlers(io,socket);
   socket.on("join-session", ({ sessionId, userId }) => {
     const roomName = `session-${sessionId}`;
     socket.join(roomName);
@@ -44,9 +51,16 @@ socket.on("chat:send", ({ sessionId, message }) => {
     socket.leave(`session-${sessionId}`);
     console.log(`👤 User ${userId} left`);
   });
-   
 
-    
+  attachOutsideChatHandlers(io,socket);
+  socket.on("disconnect",()=>{
+        console.log("A user disconnected",socket.id);
+        delete userSocketMap[userId];
+        io.emit("getOnlineUsers",Object.keys(userSocketMap));
+
+
+    });  
+
 });
 
 
