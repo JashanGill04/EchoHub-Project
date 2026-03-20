@@ -1,10 +1,9 @@
 import React, { useEffect ,useRef } from 'react'
-import { useChatStore } from '../store/useChatStore'
+import { useChatStore } from '../../store/useChatStore.js'
 import ChatHeader from'./ChatHeader.jsx'
 import MessageInput from'./MessageInput.jsx' 
-import { useAuthStore } from '../store/useAuthStore.js'
-import { formatMessageTime } from "../lib/utils";
-import { socket } from "../lib/socket";
+import { useAuthStore } from '../../store/useAuthStore.js'
+import { formatMessageTime } from "../../lib/utils.js";
 
 const ChatContainer = () => {
   const {messages,isMessagesLoading,selectedUser,getMessages,initChat}=useChatStore();

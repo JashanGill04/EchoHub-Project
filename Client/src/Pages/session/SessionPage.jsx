@@ -20,11 +20,6 @@ const SessionPage = () => {
   // Global stores
   const { authUser } = useAuthStore();
   const {  clearchat } = useLiveChatStore();
-
-
-  
-
-
   const {
     selectedSession,
     getSessionById,
@@ -153,57 +148,57 @@ const {
 
   // 🔥 Main render (host & participants only)
   return (
- <div className="min-h-screen w-screen bg-base-200 text-base-content flex flex-col pt-16">
+ <div className="min-h-screen w-screen bg-base-200 text-base-content flex flex-col p-10 pt-20">
   {/* ↑ pt-16 accounts for global Navbar */}
-
   {/* HEADER */}
-  <header className="bg-base-100 border-b border-base-300">
-    <div className="max-w-[1700px] mx-auto px-6 py-4 flex justify-between items-center">
+<header className="h-14 text-cyan-200 px-5 flex items-center justify-between bg-gray-950 rounded-2xl border-2  border-zinc-400 ">
 
-      {/* Session Info */}
-      <div>
-        <h1 className="text-xl font-semibold tracking-tight">
-          {selectedSession.title}
-        </h1>
-        <p className="text-sm opacity-60">
-          Host: {selectedSession.host.name} {isHost && "(You)"}
-        </p>
-      </div>
-       
-      {/*Voice opetations*/}
-  <VoiceControls
-        inCall={inCall}
-        muted={muted}
-        onJoin={startAudio}
-        onMute={toggleMute}
-        onSpeakerMute={toggleSpeakerMute}
-        onLeave={leaveAudio}
+  {/* LEFT: Session Info */}
+  <div className="flex flex-col leading-tight">
+    <span className="text-sm font-semibold truncate max-w-[220px]">
+      {selectedSession.title}
+    </span>
+    <span className="text-xs opacity-60">
+      {selectedSession.host.name} {isHost && "(You)"}
+    </span>
+  </div>
 
-      />
+  {/* CENTER: Voice Controls */}
+  <div className="flex items-center gap-2 ">
+    <VoiceControls
+      inCall={inCall}
+      muted={muted}
+      onJoin={startAudio}
+      onMute={toggleMute}
+      onSpeakerMute={toggleSpeakerMute}
+      onLeave={leaveAudio}
+    />
+  </div>
 
-      {/* Actions */}
-      <div className="flex items-center gap-3">
-        {isHost && (
-          <button
-            onClick={() => setShowRequests(true)}
-            className="btn btn-outline btn-sm relative"
-          >
-            Requests
-            <span className="badge badge-primary badge-sm absolute -top-2 -right-2 text-primary-content">
-              {joinRequest?.length || 0}
-            </span>
-          </button>
-        )}
+  {/* RIGHT: Actions */}
+<div className="flex items-center gap-2">
 
-        <button
-          onClick={handleLeaveSession}
-          className="btn btn-error btn-sm text-error-content"
-        >
-          Leave Session
-        </button>
-      </div>
-    </div>
-  </header>
+  {isHost && (
+    <button
+      onClick={() => setShowRequests(true)}
+      className="btn btn-primary btn-sm relative !text-cyan-200"
+    >
+      Requests
+      <span className="badge badge-primary badge-xs absolute -top-2 -right-2 !text-cyan-200">
+        {joinRequest?.length || 0}
+      </span>
+    </button>
+  )}
+
+  <button
+    onClick={handleLeaveSession}
+    className="btn btn-xs btn-primary !text-cyan-200"
+  >
+    Leave
+  </button>
+
+</div>
+</header>
 
   {/* MAIN */}
   <main className="flex-1 overflow-hidden px-4 py-6">
@@ -250,7 +245,7 @@ const {
           <button
             onClick={() => setActiveSidebarTab('chat')}
             className={`
-              flex-1 py-3 text-sm font-medium transition
+              flex-1 py-3 text-sm font-medium btn btn-primary btn-sm transition
               ${
                 activeSidebarTab === 'chat'
                   ? 'bg-base-200 text-primary'
@@ -264,7 +259,7 @@ const {
           <button
             onClick={() => setActiveSidebarTab('participants')}
             className={`
-              flex-1 py-3 text-sm font-medium transition
+              flex-1 py-3 text-sm btn btn-primary btn-sm font-medium transition
               ${
                 activeSidebarTab === 'participants'
                   ? 'bg-base-200 text-primary'

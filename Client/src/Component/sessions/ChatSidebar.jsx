@@ -31,7 +31,7 @@ const ChatSidebar = () => {
   };
 
   return (
-    <div className="flex flex-col h-full bg-base-100">
+    <div className="flex flex-col h-full w-full bg-base-100">
       {/* Messages Area */}
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         <AnimatePresence initial={false}> {/* 👈 Wraps animated list */}

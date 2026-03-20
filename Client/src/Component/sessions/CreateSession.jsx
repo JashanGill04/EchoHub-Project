@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Navbar from "../../Pages/Navbar";
 import { useSessionStore } from "../../store/useSessionStore";
 import { useNavigate } from 'react-router-dom';
+import HomePage from "../../Pages/HomePage";
 
 const CreateSession = () => {
     const navigate = useNavigate();
@@ -17,7 +18,8 @@ const CreateSession = () => {
   };
 
   return (
-    <div className="min-h-screen w-screen bg-[#120a1a] text-gray-200">
+    <HomePage>
+<div className="min-h-screen w-screen bg-[#120a1a] text-gray-200">
       <Navbar />
 
       <div className="max-w-2xl mx-auto pt-24 px-6">
@@ -65,6 +67,8 @@ const CreateSession = () => {
         </div>
       </div>
     </div>
+    </HomePage>
+    
   );
 };
 

@@ -22,14 +22,14 @@ const VoiceControls = ({
       ) : (
         <>
           <button
-            className="btn btn-outline btn-sm"
+            className="btn btn-primary btn-sm"
             onClick={handleMute}
           >
             {muted ? "Unmute" : "Mute"}
           </button>
 
           <button
-            className="btn btn-error btn-sm"
+            className="btn btn-primary btn-sm"
             onClick={onLeave}
           >
             Leave Audio

@@ -1,7 +1,6 @@
 import { Routes,Route, Navigate} from 'react-router-dom';
 import'./App.css';
 import Navbar from './Pages/Navbar';
-import HomePage from './Pages/HomePage';
 import SignUpPage from './Pages/SignUpPage';
 import LoginPage from './Pages/LoginPage';
 import SettingsPage from './Pages/SettingsPage';
@@ -17,8 +16,8 @@ import CreateSession from './Component/sessions/CreateSession';
 import WaitingArea from './Component/sessions/Waitingarea';
 import WaitingPage from './Pages/session/WaitingPage';
 import { socket } from './lib/socket';
-import Chatting from './Pages/Chating';
-
+import Chatting from './Pages/OutsideChatting/Chating';
+import HomePage from './Pages/HomePage'
 function App() {
  const {authUser,checkAuth,isCheckingAuth,onlineUsers}=useAuthStore();
  const {theme}=useThemeStore();
@@ -46,7 +45,8 @@ if(isCheckingAuth && !authUser) return(
 <div data-theme={theme} >
 <Navbar />
 <Routes>
-  <Route path="/" element={ authUser? <SessionList/>: <Navigate to="/login"/>}/>
+  <Route path="/" element={ authUser? <HomePage/>: <Navigate to="/login"/>}/>
+  <Route path="/sessionList" element={ authUser? <SessionList/>: <Navigate to="/login"/>}/>
   <Route path="/chat" element={ authUser? <Chatting/>: <Navigate to="/login"/>}/>
   <Route path="/signup" element={!authUser ? <SignUpPage/>: <Navigate to="/"/>}/>
   <Route path="/login" element={!authUser ? <LoginPage/>: <Navigate to="/"></Navigate>}/>

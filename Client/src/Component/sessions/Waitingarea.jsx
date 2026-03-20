@@ -1,8 +1,10 @@
 import React from "react";
+import HomePage from "../../Pages/HomePage";
 
 const WaitingArea = ({ onCancel }) => {
   return (
-    <div className="w-full h-full flex items-center justify-center">
+    <HomePage>
+ <div className="w-full h-full flex items-center justify-center">
       <div
         className="
           card bg-base-100
@@ -59,6 +61,9 @@ const WaitingArea = ({ onCancel }) => {
         </div>
       </div>
     </div>
+
+    </HomePage>
+   
   );
 };
 

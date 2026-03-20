@@ -277,7 +277,7 @@ const Canvas = ({ toolRef, colorRef, sizeRef, reset, sessionId, isHost }) => {
       ref={containerRef}
       onScroll={handleScroll}
       style={{
-        width: "70vw",
+        width: "65vw",
         height: "75vh",
         overflow: "auto",
         border: "1px solid #999",

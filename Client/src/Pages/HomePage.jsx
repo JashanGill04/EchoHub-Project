@@ -1,26 +1,15 @@
-import React from 'react'
-import { useChatStore } from '../store/useChatStore'
-import Sidebar from "../Component/Sidebar.jsx";
-import NoChatSelected from "../Component/NoChatSelected.jsx";
-import ChatContainer from "../Component/ChatContainer.jsx";
-const HomePage = () => {
- const {selectedUser} = useChatStore();
+import HomePageSideBar from '../Component/HomePageSidebar'
+const HomePage = ({ children }) => {
   return (
-    <div className="h-screen w-screen bg-base-200">
-     <div className='flex items-center justify-center pt-20 px-4'>
-      <div className='bg-base-100 rounded-lg shadow-cl w-full max-w-6xl h-[calc(100vh-8rem)]'>
-        <div className='flex h-full rounded-lg overflow-hidden'>
-         <Sidebar />
-         {!selectedUser ? <NoChatSelected/> : <ChatContainer/>}
-        </div>
+<div className="flex h-screen w-screen overflow-hidden bg-[#0b0b0b] text-white">
 
-      </div>
-     </div>
+  {/* Main Content */}
+  <main className="flex-1 overflow-y-auto">
+    {children}
+  </main>
 
+</div>
+  );
+};
 
-
-    </div>
-  )
-}
-
-export default HomePage
+export default HomePage;

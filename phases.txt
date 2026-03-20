@@ -1,0 +1,19 @@
+current goals->
+Phase 1 – Stability
+fix join bug
+responsive UI
+navigation
+theme fix
+
+intermediate->
+Phase 2 – Core features
+video
+screen share
+participant controls
+better whiteboard
+
+Advanced->
+Phase 3 – Differentiation
+GPS local discovery
+AI meeting assistant
+study mode

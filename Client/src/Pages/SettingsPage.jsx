@@ -1,6 +1,7 @@
 import { THEMES } from "../constants/index.js";
 import { useThemeStore } from "../store/useThemeStore";
 import { Send } from "lucide-react";
+import HomePage from "./HomePage.jsx";
 
 const PREVIEW_MESSAGES = [
   { id: 1, content: "Hey! How's it going?", isSent: false },
@@ -15,7 +16,8 @@ const SettingsPage = () => {
   const { theme, setTheme } = useThemeStore();
 
   return (
-    <div className="h-auto w-screen  mx-auto px-4 pt-20 ">
+<HomePage>
+ <div className="h-auto w-full  mx-auto px-4 pt-20 ">
       <div className="space-y-6">
         <div className="flex flex-col gap-1">
           <h2 className="text-lg font-semibold">Theme</h2>
@@ -129,6 +131,8 @@ const SettingsPage = () => {
         </div>
       </div>
     </div>
+</HomePage>
+   
   );
 };
 
